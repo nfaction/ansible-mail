@@ -1,0 +1,17 @@
+---
+# vars file for gmail-sendmail
+
+packages_to_remove:
+  - postfix
+
+packages_to_install:
+  - epel-release
+  - sendmail
+  - sendmail-cf
+  - cyrus-sasl-plain
+  - cyrus-sasl-md5
+
+mta_daemon: sendmail
+
+post_config_commands:
+  - "cd /etc/mail && make"

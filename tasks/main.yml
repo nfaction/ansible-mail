@@ -1,0 +1,69 @@
+---
+# tasks file for gmail-sendmail
+
+# http://hacking.elboulangero.com/2017/07/04/debian-gmail.html
+
+- name: gather os specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version}}.yml"
+    - "{{ ansible_distribution }}.yml"
+  tags:
+    - vars
+    - dl
+
+- name: remove unneccessary packages
+  package:
+    name: "{{ item }}"
+    state: absent
+  with_items: "{{ packages_to_remove }}"
+  tags: 
+    - pkgs
+    - rm-pkgs
+
+- name: install software
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items: "{{ packages_to_install }}"
+  tags:
+    - pkgs
+    - install-pkgs
+
+- name: configure sendmail
+  include: sendmail.yml
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution == "Fedora"
+  tags:
+    - sendmail
+
+- name: configure exim
+  include: exim.yml
+  when:
+    - ansible_distribution == "Debian"
+  tags:
+    - exim
+
+- name: add root alias
+  lineinfile: "dest=/etc/aliases regexp='^(.*)root:(.*)' line='root:           {{ MAIL.email }}'"
+  tags: gmail-mail
+
+- name: load new aliases
+  shell: newaliases
+  tags: gmail-mail
+
+- name: post configuration commands
+  shell: "{{ item }}"
+  with_items: "{{ post_config_commands }}"
+  tags: gmail-mail
+
+- name: restart mta daemon
+  service:
+    name: "{{ mta_daemon }}"
+    state: restarted
+  tags: gmail-mail
+
+- name: send test email
+  shell: "echo 'Just testing my sendmail gmail relay' | mail -s 'Sendmail gmail Relay' {{ MAIL.email }}"
+  tags: test-gmail-mail

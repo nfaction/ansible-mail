@@ -1,0 +1,29 @@
+---
+
+- name: create auth dir
+  file:
+    path: /etc/mail/authinfo
+    state: directory
+    mode: 0700
+  tags: template-gmail-creds
+
+- name: configure credentials files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+  with_items:
+    - { src: 'gmail-auth.j2', dest: '/etc/mail/authinfo/gmail-auth', mode: '0644' }
+    - { src: 'sendmail.mc.j2', dest: '/etc/mail/sendmail.mc', mode: '0644' }
+  tags: template-gmail-creds
+
+- name: make mail db
+  shell: makemap -r hash /etc/mail/authinfo/gmail-auth.db < /etc/mail/authinfo/gmail-auth
+  tags: gmail-creds
+
+- name: set permissions
+  file:
+    path: /etc/mail/authinfo/gmail-auth.db
+    mode: 0600
+  tags: gmail-creds
+

@@ -1,0 +1,20 @@
+---
+
+- name: create auth dir
+  file:
+    path: /etc/exim4/
+    state: directory
+    mode: 0755
+  tags: template-gmail-creds
+
+- name: configure credentials files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    owner: root
+    group: "{{ item.group | default('root') }}"
+  with_items:
+    - { src: 'passwd.client.j2', dest: '/etc/exim4/passwd.client', mode: '0640', group: "Debian-exim" }
+    - { src: 'update-exim4.conf.conf.j2', dest: '/etc/exim4/update-exim4.conf.conf', mode: '0644' }
+  tags: template-gmail-creds

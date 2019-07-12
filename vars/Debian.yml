@@ -1,0 +1,18 @@
+---
+
+# http://hacking.elboulangero.com/2017/07/04/debian-gmail.html
+# https://wiki.debian.org/GmailAndExim4
+# https://www.electrictoolbox.com/flush-exim-mail-queue/
+# https://www.electrictoolbox.com/exim-delete-message/
+
+packages_to_remove:
+  - postfix
+
+packages_to_install:
+  - exim4
+  - mailutils
+
+mta_daemon: exim4
+
+post_config_commands:
+  - "update-exim4.conf"
