@@ -17,14 +17,14 @@
     name: "{{ item }}"
     state: absent
   with_items: "{{ packages_to_remove }}"
-  tags: 
+  tags:
     - pkgs
     - rm-pkgs
 
 - name: install software
   package:
     name: "{{ item }}"
-    state: latest
+    state: present
   with_items: "{{ packages_to_install }}"
   tags:
     - pkgs
@@ -51,19 +51,22 @@
 
 - name: load new aliases
   shell: newaliases
+  changed_when: false
   tags: gmail-mail
 
 - name: post configuration commands
   shell: "{{ item }}"
   with_items: "{{ post_config_commands }}"
+  changed_when: false
   tags: gmail-mail
 
 - name: restart mta daemon
   service:
     name: "{{ mta_daemon }}"
-    state: restarted
+    state: started
   tags: gmail-mail
 
 - name: send test email
   shell: "echo 'Just testing my sendmail gmail relay' | mail -s 'Sendmail gmail Relay' {{ MAIL.email }}"
+  changed_when: false
   tags: test-gmail-mail

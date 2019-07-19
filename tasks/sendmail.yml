@@ -19,6 +19,7 @@
 
 - name: make mail db
   shell: makemap -r hash /etc/mail/authinfo/gmail-auth.db < /etc/mail/authinfo/gmail-auth
+  changed_when: false
   tags: gmail-creds
 
 - name: set permissions
@@ -26,4 +27,3 @@
     path: /etc/mail/authinfo/gmail-auth.db
     mode: 0600
   tags: gmail-creds
-
