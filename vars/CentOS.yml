@@ -6,6 +6,8 @@ packages_to_remove:
 
 packages_to_install:
   - epel-release
+  - make
+  - mailx
   - sendmail
   - sendmail-cf
   - cyrus-sasl-plain

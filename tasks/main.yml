@@ -33,20 +33,19 @@
 - name: configure sendmail
   include: sendmail.yml
   when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution == "Fedora"
+    - ansible_distribution in sendmail_distros
   tags:
     - sendmail
 
 - name: configure exim
   include: exim.yml
   when:
-    - ansible_distribution == "Debian"
+    - ansible_distribution in exim4_distros
   tags:
     - exim
 
 - name: add root alias
-  lineinfile: "dest=/etc/aliases regexp='^(.*)root:(.*)' line='root:           {{ MAIL.email }}'"
+  lineinfile: "dest=/etc/aliases regexp='^(.*)root:(.*)' line='root:           {{ mail_email }}'"
   tags: gmail-mail
 
 - name: load new aliases
@@ -67,6 +66,6 @@
   tags: gmail-mail
 
 - name: send test email
-  shell: "echo 'Just testing my sendmail gmail relay' | mail -s 'Sendmail gmail Relay' {{ MAIL.email }}"
+  shell: "echo 'Just testing my sendmail gmail relay' | mail -s 'Sendmail gmail Relay' {{ mail_email }}"
   changed_when: false
   tags: test-gmail-mail

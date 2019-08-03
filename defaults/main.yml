@@ -1,2 +1,35 @@
 ---
 # defaults file for gmail-sendmail
+
+sendmail_distros:
+  - "Ubuntu"
+  - "Fedora"
+
+exim4_distros:
+  - "Debian"
+
+mail_user: root
+mail_email: root@localhost
+mail_pass: ""
+mail_masq_as: ""
+
+exim_templates:
+  - name: passwd client config
+    src: 'passwd.client.j2'
+    dest: '/etc/exim4/passwd.client'
+    mode: '0640'
+    group: "Debian-exim"
+  - name: exim4 config
+    src: 'update-exim4.conf.conf.j2'
+    dest: '/etc/exim4/update-exim4.conf.conf'
+    mode: '0644'
+
+sendmail_templates:
+  - name: gmail authentication config
+    src: 'gmail-auth.j2'
+    dest: '/etc/mail/authinfo/gmail-auth'
+    mode: '0644'
+  - name: sendmail.mc config
+    src: 'sendmail.mc.j2'
+    dest: '/etc/mail/sendmail.mc'
+    mode: '0644'

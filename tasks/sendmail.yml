@@ -13,8 +13,7 @@
     dest: "{{ item.dest }}"
     mode: "{{ item.mode }}"
   with_items:
-    - { src: 'gmail-auth.j2', dest: '/etc/mail/authinfo/gmail-auth', mode: '0644' }
-    - { src: 'sendmail.mc.j2', dest: '/etc/mail/sendmail.mc', mode: '0644' }
+    - "{{ sendmail_templates }}"
   tags: template-gmail-creds
 
 - name: make mail db

@@ -12,9 +12,8 @@
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: "{{ item.mode }}"
-    owner: root
+    owner: "{{ item.owner | default('root') }}"
     group: "{{ item.group | default('root') }}"
   with_items:
-    - { src: 'passwd.client.j2', dest: '/etc/exim4/passwd.client', mode: '0640', group: "Debian-exim" }
-    - { src: 'update-exim4.conf.conf.j2', dest: '/etc/exim4/update-exim4.conf.conf', mode: '0644' }
+    - "{{ exim_templates }}"
   tags: template-gmail-creds

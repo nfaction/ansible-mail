@@ -154,13 +154,13 @@ dnl FEATURE(`relay_based_on_MX')dnl
 dnl # 
 dnl # Also accept email sent to "localhost.localdomain" as local email.
 dnl # 
-LOCAL_DOMAIN(`{{ MAIL.masq_as }}')dnl
+LOCAL_DOMAIN(`{{ mail_masq_as }}')dnl
 dnl #
 dnl # The following example makes mail from this host and any additional
 dnl # specified domains appear to be sent from mydomain.com
 dnl #
 dnl MASQUERADE_AS(`mydomain.com')dnl
-MASQUERADE_AS(`{{ MAIL.masq_as }}')dnl
+MASQUERADE_AS(`{{ mail_masq_as }}')dnl
 dnl #
 dnl # masquerade not just the headers, but the envelope as well
 dnl #
