@@ -12,6 +12,7 @@ mail_user: root
 mail_email: root@localhost
 mail_pass: ""
 mail_masq_as: ""
+mail_domain: "localhost"
 
 exim_templates:
   - name: passwd client config
