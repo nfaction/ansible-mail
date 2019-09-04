@@ -17,9 +17,9 @@
 # This is a Debian specific file
 
 dc_eximconfig_configtype='satellite'
-dc_other_hostnames=''
+dc_other_hostnames='{{ mail_masq_as }}'
 dc_local_interfaces='127.0.0.1 ; ::1'
-dc_readhost='localhost'
+dc_readhost='{{ mail_domain }}'
 dc_relay_domains=''
 dc_minimaldns='false'
 dc_relay_nets=''
