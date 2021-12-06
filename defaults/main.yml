@@ -19,10 +19,14 @@ exim_templates:
     src: 'passwd.client.j2'
     dest: '/etc/exim4/passwd.client'
     mode: '0640'
-    group: "Debian-exim"
+    group: 'Debian-exim'
   - name: exim4 config
     src: 'update-exim4.conf.conf.j2'
     dest: '/etc/exim4/update-exim4.conf.conf'
+    mode: '0644'
+  - name: mailname
+    src: 'exim_mailname.j2'
+    dest: '/etc/mailname'
     mode: '0644'
 
 sendmail_templates:

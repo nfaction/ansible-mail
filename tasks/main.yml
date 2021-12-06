@@ -12,11 +12,18 @@
     - vars
     - dl
 
+- name: perform an apt update
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  when:
+    - ansible_os_family == 'Debian'
+
 - name: remove unneccessary packages
   package:
     name: "{{ item }}"
     state: absent
-  with_items: "{{ packages_to_remove }}"
+  with_items: "{{ packages_to_remove | default([]) }}"
   tags:
     - pkgs
     - rm-pkgs
@@ -25,7 +32,7 @@
   package:
     name: "{{ item }}"
     state: present
-  with_items: "{{ packages_to_install }}"
+  with_items: "{{ packages_to_install | default([]) }}"
   tags:
     - pkgs
     - install-pkgs
@@ -63,9 +70,13 @@
   service:
     name: "{{ mta_daemon }}"
     state: started
-  tags: gmail-mail
+  tags:
+    - gmail-mail
+    - notest
 
 - name: send test email
   shell: "echo 'Just testing my sendmail gmail relay' | mail -s 'Sendmail gmail Relay' {{ mail_email }}"
   changed_when: false
-  tags: test-gmail-mail
+  tags:
+    - test-gmail-mail
+    - notest
