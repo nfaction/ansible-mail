@@ -1,5 +1,7 @@
 ---
 galaxy_info:
+  role_name: mail
+  namespace: ansible
   author: Matthew DePorter
   description: Role to configure MTA for use with Gmail
   company: Mobile-Tech LLC
