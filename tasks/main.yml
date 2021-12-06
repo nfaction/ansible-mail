@@ -23,7 +23,7 @@
   package:
     name: "{{ item }}"
     state: absent
-  with_items: "{{ packages_to_remove }}"
+  with_items: "{{ packages_to_remove | default([]) }}"
   tags:
     - pkgs
     - rm-pkgs
@@ -32,7 +32,7 @@
   package:
     name: "{{ item }}"
     state: present
-  with_items: "{{ packages_to_install }}"
+  with_items: "{{ packages_to_install | default([]) }}"
   tags:
     - pkgs
     - install-pkgs
