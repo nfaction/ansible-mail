@@ -25,7 +25,7 @@ exim_templates:
     dest: '/etc/exim4/update-exim4.conf.conf'
     mode: '0644'
   - name: mailname
-    src:  'exim_mailname.j2'
+    src: 'exim_mailname.j2'
     dest: '/etc/mailname'
     mode: '0644'
 
